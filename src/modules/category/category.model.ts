@@ -1,7 +1,6 @@
 import { Types } from 'mongoose';
 import { prop, arrayProp, plugin, pre, defaultClasses } from '@typegoose/typegoose';
 import { IsString, MaxLength, IsAlphanumeric, IsNotEmpty, IsArray, ArrayNotEmpty, ArrayUnique } from 'class-validator';
-import { Extend } from '@app/models/extend.model';
 
 
 export class Category extends defaultClasses.Base {
@@ -30,10 +29,10 @@ export class Category extends defaultClasses.Base {
     @prop({ default: Date.now })
     update_at?: Date;
 
-    @IsArray()
-    @ArrayUnique()
-    @arrayProp({ items: Extend })
-    extends: Extend[];
+    // @IsArray()
+    // @ArrayUnique()
+    // @arrayProp({ items: Extend })
+    // extends: Extend[];
 
     count?: number;
 }
