@@ -1,0 +1,10 @@
+{
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "username": "root",
+    "password": "123456",
+    "database": "NodePress",
+    "entities": [],
+    "synchronize": true
+}
