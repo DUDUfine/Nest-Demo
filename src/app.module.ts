@@ -13,6 +13,8 @@ import { CategoryModule } from './modules/category/category.module';
         "type": "mongodb",
         "host": "localhost",
         "port": 27017,
+        // "username": 'root',
+        // "password": '123456',
         "database": "test",
         "entities": ["dist/**/*.entity{.ts,.js}"],
         "synchronize": true

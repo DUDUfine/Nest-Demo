@@ -33,8 +33,12 @@ export class CategoryService {
       return this.categoryRepository.save(category).then(res => {
         return '创建成功';
       }).catch( err => {
-        console.log("错误："+ JSON.stringify(err.message));
+        console.log("错误："+ JSON.stringify(err.stack));
         return '创建失败';
       });
+  }
+
+  async delete(params): Promise<string> {
+    return 
   }
 }
