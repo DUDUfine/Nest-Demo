@@ -1,11 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, ObjectIdColumn } from 'typeorm';
 
 @Entity()
-export class Category{
+export class User{
   @ObjectIdColumn()
   id: number;
 
   @Column()
-  categorName: string;
+  userName: string;
 
 } 

@@ -4,7 +4,9 @@ import { createConnection, Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { CategoryModule } from './modules/category/category.module';
+import { UserModule } from './modules/user/user.module';
+import { TagModule } from './modules/tag/tag.module';
+import { InfomationModule } from './modules/infomation/infomation.module';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { CategoryModule } from './modules/category/category.module';
         "entities": ["dist/**/*.entity{.ts,.js}"],
         "synchronize": true
     }),
-    CategoryModule
+    UserModule,
+    TagModule,
+    InfomationModule
   ],
   controllers: [AppController,],
   providers: [AppService],
