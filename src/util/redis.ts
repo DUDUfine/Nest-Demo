@@ -1,8 +1,12 @@
-const redis = require("redis");
+import * as redis from  "redis";
 import * as APP_CONFIG from '../app.config';
+const {promisify} = require('util');
+
 
 // 端口、IP、密码
 let client = redis.createClient(APP_CONFIG.REDIS.port, APP_CONFIG.REDIS.host);
+
+ const getAsync = promisify(client.get).bind(client);
 
 client.on("ready", () => {
     console.log('Redis-ready');
@@ -30,4 +34,4 @@ client.get('user1', (err, value) => {
 // del 删除
 client.del('user4');
 
-export default client;
+export default {client,getAsync};

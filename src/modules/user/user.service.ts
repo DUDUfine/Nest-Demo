@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import redis from '../../util/redis';
 
+
 @Injectable()
 export class UserService {
   constructor(
@@ -17,49 +18,63 @@ export class UserService {
     private UserRepository: Repository<User>,
   ) { }
 
-  getList(querys): Promise<[User[], number]> {
+  async getList(querys): Promise<[User[], number]> {
     let pageSize = Number(querys.pageSize);
     let pageIndex = +querys.pageIndex;  // pageIndex从0开始
     let userId = querys.userId;
     console.log('querys:' + JSON.stringify(querys));
     let key = 'userId_' + pageIndex + '_' + pageSize + '_' + userId;
 
-    let getRedisByKey = async function (key) {
-      // get 获取
-      let value = await redis.get(key, (err, value) => {
-        if (err) {
-          console.log(err);
-        }
-        if (!value) {
-          // return value;
-          return  new Promise((resolve,reject) => {
-                console.log('redis-user: user'+JSON.stringify(value));
-                resolve(value);
-              });;
-        }
-      })
-return value;
-
-
-    };
-    let user =  getRedisByKey(key);
-    if (user) return user;
-    return this.UserRepository.findAndCount({ where: { userId: userId }, skip: pageSize * pageIndex, take: pageSize }).then((res) => {
-      redis.set(key, res);
-      console.log('getList-user: user' + JSON.stringify(res));
-      return res;
+    return redis.getAsync(key).then(function (res) {
+      if (res) {
+        console.log('redis数据库查询' + JSON.stringify(res));
+        return JSON.parse(res);
+        // new Promise((resolve, reject) => {
+        //   console.log('redis数据库查询' + JSON.stringify(res));
+        //   resolve(JSON.parse(res));
+        // });
+      }
+      else {
+        return this.UserRepository.findAndCount({ where: { userId: userId }, skip: pageSize * pageIndex, take: pageSize }).then((res) => {
+          console.log('数据库查询' + JSON.stringify(res));
+          redis.client.set(key, JSON.stringify(res));
+          return res;
+        });
+      }
+      //console.log(res); // => 'bar'
     });
 
+    // let user = { value: null };
+    // await this.getRedisByKey(key, user);
+    // console.log('user:' + JSON.stringify(user));
 
-    // console.log('redis-user-before: user'+JSON.stringify(user));
-    // if (user) {
-    //   return new Promise((resolve,reject) => {
-    //     console.log('redis-user: user'+JSON.stringify(user));
-    //     resolve(user);
+    // if (user.value) {
+    //   return new Promise((resolve, reject) => {
+    //     console.log('redis-user: user' + JSON.stringify(user));
+    //     resolve(JSON.parse(user.value) );
     //   });
     // }
+    // console.log("数据库查询");
 
+    // return this.UserRepository.findAndCount({ where: { userId: userId }, skip: pageSize * pageIndex, take: pageSize }).then((res) => {
+    //   console.log('getList-user: user' + JSON.stringify(res));
+    //   redis.client.set(key, JSON.stringify(res));      
+    //   return res;
+    // });
   }
+
+  // async getRedisByKey(key, result) {
+  //   // get 获取
+  //   await redis.getAsync(key, (err, value) => {
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //     console.log('redis-user: value' + JSON.stringify(value));
+  //     if (value) {
+  //       result.value = value;
+  //     }
+  //   })
+  // };
 
   queryById(id): Promise<User> {
     return this.UserRepository.findOne(id).then(res => {
