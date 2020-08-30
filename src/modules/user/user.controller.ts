@@ -2,7 +2,7 @@ import { Controller, UseGuards, Get, Put, Post, Delete, Body, Query, Param } fro
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-@Controller('User')
+@Controller('user')
 export class UserController { 
     constructor(private readonly UserService: UserService) {}
     

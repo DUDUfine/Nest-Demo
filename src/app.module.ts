@@ -5,7 +5,7 @@ import { createConnection, Connection } from 'typeorm';
 
 // import LoggingInterceptor from './interceptors/logging.interceptor';
 
-import { LoggingMiddleware } from './middleware/logging.middleware';
+import { LoggingMiddleware } from './middlewares/logging.middleware';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -33,9 +33,9 @@ import { InfomationModule } from './modules/infomation/infomation.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggingMiddleware).forRoutes('*');
-  }
-  // constructor(private readonly connection: Connection) {}
+export class AppModule  {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(LoggingMiddleware).forRoutes('*');
+  // }
+  constructor(private readonly connection: Connection) {}
 }

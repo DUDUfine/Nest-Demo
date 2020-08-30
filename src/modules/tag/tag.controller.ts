@@ -2,7 +2,7 @@ import { Controller, UseGuards, Get, Put, Post, Delete, Body, Query, Param } fro
 import { Tag } from './tag.entity';
 import { TagService } from './tag.service';
 
-@Controller('Tag')
+@Controller('tag')
 export class TagController { 
     constructor(private readonly TagService: TagService) {}
     

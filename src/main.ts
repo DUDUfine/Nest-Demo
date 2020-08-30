@@ -1,7 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
 import { AppModule } from './app.module';
-import LoggingInterceptor from './interceptors/logging.interceptor';
+
+import {TransformInterceptor } from './interceptors/transform.interceptor';
+import {LoggingInterceptor } from './interceptors/logging.interceptor';
+
+
+import * as APP_CONFIG  from './app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -21,9 +27,9 @@ async function bootstrap() {
   // 为每个路由设置前缀
   app.setGlobalPrefix('v1');
 
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors( new TransformInterceptor(), new LoggingInterceptor());
 
-  await app.listen(3000);
+  await app.listen(APP_CONFIG.APP.PORT);
 }
 bootstrap().then(() => {
   console.info(`NodePress Run！port at 3000`);

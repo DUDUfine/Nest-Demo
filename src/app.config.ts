@@ -6,3 +6,8 @@ export const REDIS = {
     ttl: null,
     defaultCacheTTL: 60 * 60 * 24,
   };
+
+
+  export const APP = {
+    PORT: 3000
+  }

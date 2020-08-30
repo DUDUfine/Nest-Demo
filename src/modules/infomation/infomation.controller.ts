@@ -3,7 +3,7 @@ import { Infomation } from './infomation.entity';
 import { InfomationService } from './infomation.service';
 import { resolve } from 'dns';
 
-@Controller('Infomation')
+@Controller('infomation')
 export class InfomationController { 
     constructor(private readonly InfomationService: InfomationService) {}
     
