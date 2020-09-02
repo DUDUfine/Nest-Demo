@@ -29,7 +29,7 @@ export class ContextTrace {
   ) {}
 }
 
-Log4js.addLayout('Awesome-nest', (logConfig: any) => {
+Log4js.addLayout('NestDemo-Logger', (logConfig: any) => {
   return (logEvent: Log4js.LoggingEvent): string => {
     let moduleName: string = '';
     let position: string = '';
