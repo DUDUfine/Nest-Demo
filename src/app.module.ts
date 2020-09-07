@@ -3,9 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { createConnection, Connection } from 'typeorm';
 
-// import LoggingInterceptor from './interceptors/logging.interceptor';
-
-import { LoggingMiddleware } from './middlewares/logging.middleware';
+// import { LoggingMiddleware } from './middlewares/logging.middleware';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -33,7 +31,7 @@ import { InfomationModule } from './modules/infomation/infomation.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule  {
+export class AppModule {
   // configure(consumer: MiddlewareConsumer) {
   //   consumer.apply(LoggingMiddleware).forRoutes('*');
   // }
