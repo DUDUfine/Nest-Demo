@@ -1,6 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 // import { Request, Response } from 'express';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+var moment = require('moment');
 import { Logger } from '../utils/log4js';
 
 @Injectable()

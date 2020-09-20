@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as rateLimit from 'express-rate-limit';
-import * as helmet from 'helmet';
-
+// import * as helmet from 'helmet';
+var helmet = require('helmet');
 import { AppModule } from './app.module';
 
 import {TransformInterceptor } from './interceptors/transform.interceptor';

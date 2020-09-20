@@ -11,7 +11,8 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // import { isDevMode } from '../app.environment';
 import { Logger } from '../utils/log4js';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+var moment = require('moment');
 
 export interface Response<T> {
   data: T;
