@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
@@ -41,6 +42,11 @@ async function bootstrap() {
     new TransformInterceptor(),
     new LoggingInterceptor(),
   );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: true,
+    }),
+  );
 
   app.useGlobalGuards(new AuthGuard());
 
@@ -51,6 +57,7 @@ async function bootstrap() {
   app.use(cookieParser());
   await app.listen(APP_CONFIG.APP.PORT);
 }
+
 bootstrap().then(() => {
   console.info(`NodePress Run！port at ${APP_CONFIG.APP.PORT}`);
 });
