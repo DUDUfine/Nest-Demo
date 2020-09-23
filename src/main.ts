@@ -1,15 +1,18 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as rateLimit from 'express-rate-limit';
-// import * as helmet from 'helmet';
-var helmet = require('helmet');
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+
+const cookieParser = require('cookie-parser');
 import { AppModule } from './app.module';
 
-import {TransformInterceptor } from './interceptors/transform.interceptor';
-import {LoggingInterceptor } from './interceptors/logging.interceptor';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
+import { AuthGuard } from './guards/auth.guard';
 
-import * as APP_CONFIG  from './app.config';
+import * as APP_CONFIG from './app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -28,15 +31,33 @@ async function bootstrap() {
 
   // 为每个路由设置前缀
   app.setGlobalPrefix('v1');
-  app.use(helmet());
-  app.use(rateLimit({
-    windowMs:  15*60*1000, // 15分钟
-    max: 100 // 每个ip15分钟内请求次数
-  }))
-  app.useGlobalInterceptors( new TransformInterceptor(), new LoggingInterceptor());
+  app.use(helmet()); // 添加响应头
+  app.use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15分钟
+      max: 100, // 每个ip15分钟内请求次数
+    }),
+  );
+  app.useGlobalInterceptors(
+    new TransformInterceptor(),
+    new LoggingInterceptor(),
+  );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: true,
+    }),
+  );
 
+  app.useGlobalGuards(new AuthGuard());
+
+  app.useGlobalInterceptors(
+    new TransformInterceptor(),
+    new LoggingInterceptor(),
+  );
+  app.use(cookieParser());
   await app.listen(APP_CONFIG.APP.PORT);
 }
+
 bootstrap().then(() => {
   console.info(`NodePress Run！port at ${APP_CONFIG.APP.PORT}`);
 });

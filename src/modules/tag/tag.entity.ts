@@ -1,14 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, ObjectIdColumn } from 'typeorm';
+import { IsEmail, IsNotEmpty } from 'class-validator';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ObjectIdColumn,
+} from 'typeorm';
 
 @Entity()
-export class Tag{
+export class Tag {
   @ObjectIdColumn()
   id: number;
 
   // 类型Code
   @Column()
-  typeCode: number; 
-  
+  @IsNotEmpty()
+  typeCode: number;
+
   //类型名称
   @Column()
   typeName: number;
@@ -16,5 +23,4 @@ export class Tag{
   //用户id
   @Column()
   userId: string;
-
-} 
+}
