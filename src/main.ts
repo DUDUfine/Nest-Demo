@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import rateLimit from 'express-rate-limit';
-import helmet from 'helmet';
+// import helmet from 'helmet';
 
 const cookieParser = require('cookie-parser');
 import { AppModule } from './app.module';
@@ -31,7 +31,7 @@ async function bootstrap() {
 
   // 为每个路由设置前缀
   app.setGlobalPrefix('v1');
-  app.use(helmet()); // 添加响应头
+  // app.use(helmet()); // 添加响应头
   app.use(
     rateLimit({
       windowMs: 15 * 60 * 1000, // 15分钟

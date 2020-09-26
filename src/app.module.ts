@@ -11,6 +11,7 @@ import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { TagModule } from './modules/tag/tag.module';
 import { InfomationModule } from './modules/infomation/infomation.module';
+import { MarkModule } from './modules/mark/mark.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { InfomationModule } from './modules/infomation/infomation.module';
     UserModule,
     TagModule,
     InfomationModule,
+    MarkModule
   ],
   controllers: [AppController],
   providers: [AppService],

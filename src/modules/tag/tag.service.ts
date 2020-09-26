@@ -13,7 +13,7 @@ import { Tag } from './tag.entity';
 export class TagService { 
   constructor( 
     @InjectRepository(Tag)
-    private TagRepository: Repository<Tag>,
+    private tagRepository: Repository<Tag>,
   ){}
 
   // 分页查询
@@ -24,11 +24,11 @@ export class TagService {
     console.log('querys:'+JSON.stringify(querys));
     
   // let findManyOptions = FindManyOptions<Tag>()
-    return this.TagRepository.findAndCount({where: {userId: userId},skip: pageSize * pageIndex, take: pageSize });
+    return this.tagRepository.findAndCount({where: {userId: userId},skip: pageSize * pageIndex, take: pageSize });
   }
 
   queryById(id): Promise<Tag> {
-    return this.TagRepository.findOne(id).then(res=> {
+    return this.tagRepository.findOne(id).then(res=> {
       console.log("queryById：" + JSON.stringify(res));
       return res;
     })
@@ -41,7 +41,7 @@ export class TagService {
   
 
   async create(newTag: Tag): Promise<string> {
-    return this.TagRepository.save(newTag).then(res => {
+    return this.tagRepository.save(newTag).then(res => {
       return '创建成功';
     }).catch(err => {
       console.log("错误：" + JSON.stringify(err.stack));
@@ -50,7 +50,7 @@ export class TagService {
   }
 
   async delete(params): Promise<string> {
-    return this.TagRepository.delete(params).then((res) => {
+    return this.tagRepository.delete(params).then((res) => {
       return '删除成功';
     }).catch(err => {
       return '删除失败';

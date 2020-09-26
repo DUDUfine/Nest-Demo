@@ -13,7 +13,7 @@ import { Infomation } from './infomation.entity';
 export class InfomationService {
   constructor(
     @InjectRepository(Infomation)
-    private InfomationRepository: Repository<Infomation>,
+    private infomationRepository: Repository<Infomation>,
   ) { }
 
   getList(querys): Promise<[Infomation[], number]>{
@@ -23,11 +23,11 @@ export class InfomationService {
     console.log('querys:'+JSON.stringify(querys));
     
   // let findManyOptions = FindManyOptions<Infomation>()
-    return this.InfomationRepository.findAndCount({where: {userId: userId},skip: pageSize * pageIndex, take: pageSize });
+    return this.infomationRepository.findAndCount({where: {userId: userId},skip: pageSize * pageIndex, take: pageSize });
   }
 
   queryById(id): Promise<Infomation> {
-    return this.InfomationRepository.findOne(id).then(res=> {
+    return this.infomationRepository.findOne(id).then(res=> {
       console.log("queryById：" + JSON.stringify(res));
       return res;
     })
@@ -40,7 +40,7 @@ export class InfomationService {
   
 
   async create(newInfomation: Infomation): Promise<string> {
-    return this.InfomationRepository.save(newInfomation).then(res => {
+    return this.infomationRepository.save(newInfomation).then(res => {
       return '创建成功';
     }).catch(err => {
       console.log("错误：" + JSON.stringify(err.stack));
@@ -49,7 +49,7 @@ export class InfomationService {
   }
 
   async delete(params): Promise<string> {
-    return this.InfomationRepository.delete(params).then((res) => {
+    return this.infomationRepository.delete(params).then((res) => {
       return '删除成功';
     }).catch(err => {
       return '删除失败';

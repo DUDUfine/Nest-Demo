@@ -14,7 +14,7 @@ import redis from '../../utils/redis';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private UserRepository: Repository<User>,
+    private userRepository: Repository<User>,
   ) {}
 
   async getList(querys): Promise<[User[], number]> {
@@ -33,7 +33,7 @@ export class UserService {
         //   resolve(JSON.parse(res));
         // });
       } else {
-        return this.UserRepository.findAndCount({
+        return this.userRepository.findAndCount({
           where: { userId: userId },
           skip: pageSize * pageIndex,
           take: pageSize,
@@ -79,7 +79,7 @@ export class UserService {
   // };
 
   queryById(id): Promise<User> {
-    return this.UserRepository.findOne(id)
+    return this.userRepository.findOne(id)
       .then((res) => {
         console.log('queryById：' + JSON.stringify(res));
         return res;
@@ -91,7 +91,7 @@ export class UserService {
   }
 
   async create(newUser: User): Promise<string> {
-    return this.UserRepository.save(newUser)
+    return this.userRepository.save(newUser)
       .then((res) => {
         return '创建成功';
       })
@@ -102,7 +102,7 @@ export class UserService {
   }
 
   async delete(params): Promise<string> {
-    return this.UserRepository.delete(params)
+    return this.userRepository.delete(params)
       .then((res) => {
         return '删除成功';
       })
