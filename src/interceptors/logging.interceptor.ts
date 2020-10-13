@@ -35,7 +35,7 @@ export class LoggingInterceptor implements NestInterceptor {
           请求参数paramas: ${JSON.stringify(request.params)}
           请求参数Query: ${JSON.stringify(request.query)}
           请求体Body: ${JSON.stringify(request.body)}
-          响应内容: ${data}
+          响应内容: ${JSON.stringify(data)}
           响应时间：${Date.now() - now}ms
           >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         `;
