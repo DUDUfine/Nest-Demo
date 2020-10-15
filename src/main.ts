@@ -50,10 +50,6 @@ async function bootstrap() {
 
   app.useGlobalGuards(new AuthGuard());
 
-  app.useGlobalInterceptors(
-    new TransformInterceptor(),
-    new LoggingInterceptor(),
-  );
   app.use(cookieParser());
   await app.listen(APP_CONFIG.APP.PORT);
 }
