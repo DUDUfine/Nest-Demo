@@ -2,14 +2,14 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ObjectIdColumn,
+  ObjectID,
 } from 'typeorm';
 
 @Entity()
 export class Tag {
   @ObjectIdColumn()
-  id: number;
+  id: ObjectID;
 
   // 类型Code
   @Column()

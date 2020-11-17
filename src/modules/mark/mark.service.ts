@@ -6,6 +6,7 @@
  */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { validate } from 'class-validator';
 import { Repository } from 'typeorm';
 import { Mark } from './mark.entity';
 
@@ -17,6 +18,12 @@ export class MarkService {
   ) {}
 
   async create(newMark: Mark): Promise<string> {
+    const error = await validate(newMark);
+    if (error.length > 0) {
+      throw new Error(`MarkService-create校验失败!`);
+    } else {
+
+    
     return this.MarkRepository.save(newMark)
       .then((res) => {
         return '创建成功';
@@ -25,6 +32,7 @@ export class MarkService {
         console.log('错误：' + JSON.stringify(err.stack));
         return '创建失败';
       });
+    }
   }
 
   // 分页查询

@@ -1,15 +1,15 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsDate, IsEmail, IsNotEmpty, Length } from 'class-validator';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ObjectIdColumn,
+  ObjectID,
 } from 'typeorm';
 
 @Entity()
 export class Mark {
   @ObjectIdColumn()
-  id: number;
+  id: ObjectID;
 
   // 店名
   @Column()
@@ -25,6 +25,7 @@ export class Mark {
 
   // 备注
   @Column()
+  @Length(0, 100)
   remark: string;
 
   // 经度
@@ -34,5 +35,13 @@ export class Mark {
   // 纬度
   @Column()
   latitude: string;
+
+  @Column()
+  @IsDate()
+  createDate: Date;
+
+  @Column()
+  @IsDate()
+  updateDate: Date;
   
 }
