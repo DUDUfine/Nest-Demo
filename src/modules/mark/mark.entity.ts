@@ -11,37 +11,61 @@ export class Mark {
   @ObjectIdColumn()
   id: ObjectID;
 
-  // 店名
-  @Column()
+  @Column({
+    comment: '店名',
+    nullable: false,
+    length: 30
+  })
   shopName: string;
 
-  //类型
-  @Column()
+  @Column({
+      comment: '类型',
+      length: 30
+    }
+  )
   category: string;
 
-  // 人均花销
-  @Column()
+
+  @Column( {
+    comment: '人均花销',
+  })
   cost: number;
 
-  // 备注
-  @Column()
   @Length(0, 100)
+  @Column({
+    comment: '备注',
+  })
   remark: string;
 
-  // 经度
-  @Column()
+  @Column({
+    comment: '经度',
+    nullable: false,
+  })
   longitude: string;
 
-  // 纬度
-  @Column()
+
+  @Column({
+    comment: '纬度',
+    nullable: false
+  })
   latitude: string;
 
-  @Column()
+  @Column({
+    type: 'timestamp',
+    comment: '创建时间',
+    default: new Date(),
+    nullable: false
+  })
   @IsDate()
-  createDate: Date;
+  createTime: Date;
+ 
+  @Column({
+    type: 'timestamp',
+    comment: '更新时间',
+    default: new Date(),
+    nullable: false
+  })
+  @IsDate()
+  updateTime: Date;
 
-  @Column()
-  @IsDate()
-  updateDate: Date;
-  
 }

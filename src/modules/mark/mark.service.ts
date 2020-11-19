@@ -36,11 +36,9 @@ export class MarkService {
   }
 
   // 分页查询
-  getList(querys): Promise<[Mark[], number]> {
-    let pageSize = Number(querys.pageSize);
+  getList(querys): Promise<[Mark[], number]> {    let pageSize = Number(querys.pageSize);
     let pageIndex = +querys.pageIndex; // pageIndex从0开始
     console.log('querys:' + JSON.stringify(querys));
-
     return this.MarkRepository.findAndCount({
       // where: { userId: userId },
       skip: pageSize * pageIndex,
