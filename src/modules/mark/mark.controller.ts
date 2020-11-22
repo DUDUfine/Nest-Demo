@@ -23,6 +23,8 @@ export class MarkController {
 
   @Post('add')
   addMark(@Body() mark): Promise<string> {
+    mark.createTime = new Date();
+    mark.updateTime = new Date();
     var a = JSON.stringify(mark);
     console.log('addMark参数:' + a);
     return this.markService.create(mark);

@@ -43,6 +43,7 @@ export class MarkService {
       // where: { userId: userId },
       skip: pageSize * pageIndex,
       take: pageSize,
+      order: {'createTime': "DESC"}
     });
   }
 
