@@ -33,4 +33,9 @@ export class UserController {
         }
         return this.UserService.queryById(id)
     }
+
+    @Post('login')
+    login(@Body() params):Promise<string> {
+        return this.UserService.login(params);
+    }
 }   

@@ -9,14 +9,49 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import redis from '../../utils/redis';
-
+import axios from 'axios';
+import uuid from 'node-uuid';
+import { response } from 'express';
+const appid = 'xxx';
+const secret = 'xxx';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
+  
+  async login(params): Promise<string>{
+    console.log('code'+params.code)
+    return axios.get('https://api.weixin.qq.com/sns/jscode2session?appid='+appid+'&secret='+secret+'&js_code='+params.code+'&grant_type=authorization_code').then((response: any)=> {
+      if (response.errcode == 0) {
+        let token = uuid.v1();
+        let tempuser = new User();
+        tempuser.token = token;
+        this.create(tempuser);
+        return token;
+      } else {
+        console.log(response);
+      }
+     return ''; 
+    }).catch((error) => {
+      console.log('异常'+error);
+      return ''; 
+    })
+  }
 
+  async create(newUser: User): Promise<string> {
+    return this.userRepository.save(newUser)
+      .then((res) => {
+        console.log('创建成功');
+        return '创建成功';
+      })
+      .catch((err) => {
+        console.log('错误：' + JSON.stringify(err.stack));
+        return '创建失败';
+      });
+  }
+  
   async getList(querys): Promise<[User[], number]> {
     let pageSize = Number(querys.pageSize);
     let pageIndex = +querys.pageIndex; // pageIndex从0开始
@@ -90,16 +125,7 @@ export class UserService {
       });
   }
 
-  async create(newUser: User): Promise<string> {
-    return this.userRepository.save(newUser)
-      .then((res) => {
-        return '创建成功';
-      })
-      .catch((err) => {
-        console.log('错误：' + JSON.stringify(err.stack));
-        return '创建失败';
-      });
-  }
+  
 
   async delete(params): Promise<string> {
     return this.userRepository.delete(params)

@@ -8,4 +8,7 @@ export class User{
   @Column()
   userName: string;
 
+  @Column()
+  token: string;
+
 } 
