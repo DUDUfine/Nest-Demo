@@ -11,4 +11,11 @@ export class User{
   @Column()
   token: string;
 
+  @Column()
+  sessionKey: string;
+
+  @Column()
+  openid: string;
+
+
 } 

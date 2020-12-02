@@ -12,8 +12,10 @@ import redis from '../../utils/redis';
 import axios from 'axios';
 import uuid from 'node-uuid';
 import { response } from 'express';
+
 const appid = 'xxx';
-const secret = 'xxx';
+const secret = 'xxxx';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -24,19 +26,24 @@ export class UserService {
   async login(params): Promise<string>{
     console.log('code'+params.code)
     return axios.get('https://api.weixin.qq.com/sns/jscode2session?appid='+appid+'&secret='+secret+'&js_code='+params.code+'&grant_type=authorization_code').then((response: any)=> {
-      if (response.errcode == 0) {
+      console.log('登录请求响应');
+      // console.log(response.data);
+      
+      if (response.errcode && response.errcode != 0) {  // response.errcode=0为成功
+       return `登录失败,错误码${response.errcode }！`
+      } else {
         let token = uuid.v1();
         let tempuser = new User();
         tempuser.token = token;
+        tempuser.sessionKey = response.data.session_key;
+        tempuser.openid = response.data.openid;
         this.create(tempuser);
         return token;
-      } else {
-        console.log(response);
       }
-     return ''; 
+     
     }).catch((error) => {
       console.log('异常'+error);
-      return ''; 
+      return `登录失败,错误${error }！`
     })
   }
 
