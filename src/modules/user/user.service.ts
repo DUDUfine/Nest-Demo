@@ -14,7 +14,7 @@ import uuid from 'node-uuid';
 import { response } from 'express';
 
 const appid = 'xxx';
-const secret = 'xxxx';
+const secret = 'xxx';
 
 @Injectable()
 export class UserService {
@@ -44,6 +44,15 @@ export class UserService {
     }).catch((error) => {
       console.log('异常'+error);
       return `登录失败,错误${error }！`
+    })
+  }
+
+  hasToken(querys): Promise<boolean> {
+    return this.userRepository.find({token: querys}).then(users => {
+      if (users.length>0) {
+        return true;
+      }
+      return false;
     })
   }
 

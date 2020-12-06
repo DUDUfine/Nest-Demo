@@ -13,15 +13,18 @@ export class AuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    const token = context.switchToHttp().getRequest().headers['token'];
+    console.log('token值:'+token);
+    
     const request = context.switchToHttp().getRequest();
     const { cookie } = context.switchToHttp().getRequest();
-    return this.validateRequest(request, cookie);
+    return this.validateRequest(token);
   }
-  validateRequest(request: Request, cookie) {
-    const header = request.headers;
-
-    console.log(header);
-    console.log('路由守卫header-cookies' + JSON.stringify(cookie));
+  validateRequest(token) {
+   if (!token) {
+     return false;
+   }
+    // console.log('路由守卫header-cookies' + JSON.stringify(cookie));
 
     // TODO Request中参数/请求头是否有用户信息
 

@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Delete, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Query, UseGuards } from '@nestjs/common';
+import { AuthGuard } from './../../guards/auth.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -17,6 +18,14 @@ export class UserController {
         console.log('addUser参数:'+a);
         return this.UserService.create(User);
     }
+
+      // 检测 Token 有效性
+    @Post('check')
+    @UseGuards(AuthGuard)
+    checkToken(@Query() querys): Promise<boolean> {
+        return this.UserService.hasToken(querys)
+    }
+
 
     @Delete('delete')
     deleteUser(@Body() User):Promise<string> {
@@ -38,4 +47,5 @@ export class UserController {
     login(@Body() params):Promise<string> {
         return this.UserService.login(params);
     }
+
 }   
